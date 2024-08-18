@@ -1,0 +1,51 @@
+name: cardgame
+description: "A new Flutter project."
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.4 <4.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+
+flutter:
+  assets:
+    - assets/images/image1.png
+    - assets/images/image2.png
+    - assets/images/image3.png
+    - assets/images/image4.png
+    - assets/images/image5.png
+    - assets/images/image6.png
+    - assets/images/image7.png
+    - assets/images/image8.png
+    - assets/images/image9.png
+    - assets/images/image10.png
+    - assets/images/image11.png
+    - assets/images/image12.png
+    - assets/images/image13.png
+    - assets/images/image14.png
+    - assets/images/image15.png
+    - assets/images/image16.png
+    - assets/images/image17.png
+    - assets/images/image18.png
+    - assets/images/image19.png
+    - assets/images/image20.png
+
+
+  uses-material-design: true
+
