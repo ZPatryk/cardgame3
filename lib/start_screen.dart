@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'image_item.dart'; // Upewnij się, że ścieżka do pliku jest poprawna
-import 'image_screen.dart'; // Upewnij się, że ścieżka do pliku jest poprawna
+import 'image_item.dart';
+import 'image_screen.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class StartScreen extends StatelessWidget {
+  final TextEditingController player1Controller = TextEditingController();
+  final TextEditingController player2Controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    // Zdefiniuj pełną listę obrazów tutaj
     final List<ImageItem> images = [
       ImageItem(key: 'apple', imagePath: 'assets/images/image1.png'),
       ImageItem(key: 'apple1', imagePath: 'assets/images/image2.png'),
@@ -30,13 +32,41 @@ class MyApp extends StatelessWidget {
       ImageItem(key: 'raspberry1', imagePath: 'assets/images/image20.png'),
     ];
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Card Game'),
-
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Enter Player Names'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: player1Controller,
+              decoration: const InputDecoration(labelText: 'Player 1 Name'),
+            ),
+            TextField(
+              controller: player2Controller,
+              decoration: const InputDecoration(labelText: 'Player 2 Name'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ImageScreen(
+                      images: images,  // Przekazujemy pełną listę obrazów
+                      player1Name: player1Controller.text,
+                      player2Name: player2Controller.text,
+                    ),
+                  ),
+                );
+              },
+              child: const Text('Start Game'),
+            ),
+          ],
         ),
-        body: ImageScreen(images: images), // Zmienione na 'images'
       ),
     );
   }

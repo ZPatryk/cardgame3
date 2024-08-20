@@ -3,8 +3,15 @@ import 'image_item.dart';
 
 class ImageScreen extends StatefulWidget {
   final List<ImageItem> images;
+  final String player1Name;
+  final String player2Name;
 
-  const ImageScreen({super.key, required this.images});
+  const ImageScreen({
+    super.key,
+    required this.images,
+    required this.player1Name,
+    required this.player2Name,
+  });
 
   @override
   _ImageScreenState createState() => _ImageScreenState();
@@ -63,71 +70,71 @@ class _ImageScreenState extends State<ImageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Player 1 Score: $_player1Score',
-            style: TextStyle(fontWeight: _currentPlayer==1 ? FontWeight.bold : FontWeight.normal,
-                fontSize: 24),
-          ),
-        ),
-
-        /*Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Current Player: Player $_currentPlayer',
-            style: const TextStyle(fontSize: 20,),
-          ),
-        ),
-         */
-        Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                crossAxisSpacing: 4.0,  // Odstęp między kolumnami
-                mainAxisSpacing: 4.0,  // Odstęp między wierszami
-                childAspectRatio: 0.75  // Stosunek szerokości do wysokości każdej kratki
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Card Game'),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              '${widget.player1Name} Score: $_player1Score',
+              style: TextStyle(
+                fontWeight: _currentPlayer == 1 ? FontWeight.bold : FontWeight.normal,
+                fontSize: 24,
+              ),
             ),
-            itemCount: widget.images.length,
-            itemBuilder: (context, index) {
-              final item = widget.images[index];
+          ),
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 4.0,
+                  mainAxisSpacing: 4.0,
+                  childAspectRatio: 0.75
+              ),
+              itemCount: widget.images.length,
+              itemBuilder: (context, index) {
+                final item = widget.images[index];
 
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.deepPurple,
-                        blurRadius: 4.0,
-                        spreadRadius: 2.0,
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.deepPurple,
+                          blurRadius: 4.0,
+                          spreadRadius: 2.0,
+                        ),
+                      ],
+                    ),
+                    child: Visibility(
+                      visible: _visible[item.key] ?? false,
+                      child: InkWell(
+                        onTap: () => _handleTap(item.key),
+                        child: Image.asset(item.imagePath),
                       ),
-                    ],
-                  ),
-                  child: Visibility(
-                    visible: _visible[item.key] ?? false,
-                    child: InkWell(
-                      onTap: () => _handleTap(item.key),
-                      child: Image.asset(item.imagePath),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Player 2 Score: $_player2Score',
-            style: TextStyle(fontWeight: _currentPlayer==2 ? FontWeight.bold : FontWeight.normal,
-              fontSize: 24,),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              '${widget.player2Name} Score: $_player2Score',
+              style: TextStyle(
+                fontWeight: _currentPlayer == 2 ? FontWeight.bold : FontWeight.normal,
+                fontSize: 24,
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
