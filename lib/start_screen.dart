@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'image_item.dart';
 import 'image_screen.dart';
@@ -31,6 +33,9 @@ class StartScreen extends StatelessWidget {
       ImageItem(key: 'raspberry', imagePath: 'assets/images/image19.png'),
       ImageItem(key: 'raspberry1', imagePath: 'assets/images/image20.png'),
     ];
+
+      images.shuffle(Random());
+
 
     return Scaffold(
       appBar: AppBar(
