@@ -1,12 +1,39 @@
 import 'dart:math';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'image_item.dart';
 import 'image_screen.dart';
+import 'package:cardgame/utils/text_styles.dart';
 
-class StartScreen extends StatelessWidget {
+class StartScreen extends StatefulWidget {
+  const StartScreen({super.key});
+
+  @override
+  _StartScreenState createState() => _StartScreenState();
+}
+
+class _StartScreenState extends State<StartScreen> {
   final TextEditingController player1Controller = TextEditingController();
   final TextEditingController player2Controller = TextEditingController();
+  final FocusNode _player1FocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    // Ustaw focus na _player1FocusNode podczas inicjalizacji
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _player1FocusNode.requestFocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    // Pamiętaj, aby zwolnić zasoby kontrolerów
+    player1Controller.dispose();
+    player2Controller.dispose();
+    _player1FocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,25 +61,48 @@ class StartScreen extends StatelessWidget {
       ImageItem(key: 'raspberry1', imagePath: 'assets/images/image20.png'),
     ];
 
-      images.shuffle(Random());
-
+    images.shuffle(Random());
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Enter Player Names'),
+        title: const Text('Enter Player Names', style: TextStyles.retro),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: player1Controller,
-              decoration: const InputDecoration(labelText: 'Player 1 Name'),
+            SizedBox(
+              width: 250.0,
+              child: TextField(
+                controller: player1Controller,
+                focusNode: _player1FocusNode,
+                style: TextStyles.retroblack,
+                decoration: const InputDecoration(
+                  label: Center(
+                    child: Text(
+                      'Player 1 Name',
+                      style: TextStyles.retro,
+                    ),
+                  ),
+                  //border: OutlineInputBorder(),
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
             TextField(
               controller: player2Controller,
-              decoration: const InputDecoration(labelText: 'Player 2 Name'),
+              style: TextStyles.retroblack,
+              decoration: const InputDecoration(
+                label: Center(
+                  child: Text(
+                    'Player 2 Name',
+                    style: TextStyles.retro,
+                  ),
+                ),
+                border: InputBorder.none,
+              ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -61,14 +111,14 @@ class StartScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ImageScreen(
-                      images: images,  // Przekazujemy pełną listę obrazów
+                      images: images, // Przekazujemy pełną listę obrazów
                       player1Name: player1Controller.text,
                       player2Name: player2Controller.text,
                     ),
                   ),
                 );
               },
-              child: const Text('Start Game'),
+              child: const Text('Start Game', style: TextStyles.retro),
             ),
           ],
         ),
