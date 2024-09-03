@@ -4,14 +4,14 @@ import 'card_flip.dart'; // Import klasy do obsługi obracania kart.
 
 class ImageScreen extends StatefulWidget {
   final List<ImageItem> images;
-  final String backImagePath; // Dodanie ścieżki do obrazu rewersu.
+  final String frontImagePath; // Dodanie ścieżki do obrazu rewersu.
   final String player1Name;
   final String player2Name;
 
   const ImageScreen({
     super.key,
     required this.images,
-    required this.backImagePath, // Parametr dla obrazu rewersu.
+    required this.frontImagePath, // Parametr dla obrazu rewersu.
     required this.player1Name,
     required this.player2Name,
   });
@@ -106,8 +106,8 @@ class _ImageScreenState extends State<ImageScreen> {
                   child: Visibility(
                     visible: _visible[item.key] ?? false,
                     child: CardFlip(
-                      frontImagePath: item.imagePath,
-                      backImagePath: widget.backImagePath, // Ustawienie rewersu.
+                      backImagePath: item.imagePath,
+                      frontImagePath: widget.frontImagePath, // Ustawienie rewersu.
                       key: ValueKey(item.key),
                     ),
                   ),

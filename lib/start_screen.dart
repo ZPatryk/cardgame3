@@ -61,7 +61,7 @@ class _StartScreenState extends State<StartScreen> {
     ];
 
     // Ścieżka do obrazu rewersu
-    final String backImagePath = 'assets/images/image21.png';
+    final String frontImagePath = 'assets/images/image21.png';
 
     images.shuffle(Random());
 
@@ -123,7 +123,7 @@ class _StartScreenState extends State<StartScreen> {
                       MaterialPageRoute(
                         builder: (context) => ImageScreen(
                           images: images,
-                          backImagePath: backImagePath, // Dodanie rewersu do parametrów
+                          frontImagePath: frontImagePath, // Dodanie rewersu do parametrów
                           player1Name: player1Controller.text,
                           player2Name: player2Controller.text,
                         ),
