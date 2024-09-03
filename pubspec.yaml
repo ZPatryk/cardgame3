@@ -44,6 +44,7 @@ flutter:
     - assets/images/image18.png
     - assets/images/image19.png
     - assets/images/image20.png
+    - assets/images/image21.png
 
   fonts:
     - family: PressStart2P

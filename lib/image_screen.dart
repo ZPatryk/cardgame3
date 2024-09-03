@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'image_item.dart';
+import 'card_flip.dart'; // Import klasy do obsługi obracania kart.
 
 class ImageScreen extends StatefulWidget {
   final List<ImageItem> images;
+  final String backImagePath; // Dodanie ścieżki do obrazu rewersu.
   final String player1Name;
   final String player2Name;
 
   const ImageScreen({
     super.key,
     required this.images,
+    required this.backImagePath, // Parametr dla obrazu rewersu.
     required this.player1Name,
     required this.player2Name,
   });
@@ -100,23 +103,12 @@ class _ImageScreenState extends State<ImageScreen> {
 
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.deepPurple,
-                          blurRadius: 4.0,
-                          spreadRadius: 2.0,
-                        ),
-                      ],
-                    ),
-                    child: Visibility(
-                      visible: _visible[item.key] ?? false,
-                      child: InkWell(
-                        onTap: () => _handleTap(item.key),
-                        child: Image.asset(item.imagePath),
-                      ),
+                  child: Visibility(
+                    visible: _visible[item.key] ?? false,
+                    child: CardFlip(
+                      frontImagePath: item.imagePath,
+                      backImagePath: widget.backImagePath, // Ustawienie rewersu.
+                      key: ValueKey(item.key),
                     ),
                   ),
                 );
