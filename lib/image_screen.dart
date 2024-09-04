@@ -4,14 +4,14 @@ import 'card_flip.dart'; // Import klasy do obsługi obracania kart.
 
 class ImageScreen extends StatefulWidget {
   final List<ImageItem> images;
-  final String frontImagePath; // Dodanie ścieżki do obrazu rewersu.
+  final String frontImagePath; // Ścieżka do obrazu rewersu.
   final String player1Name;
   final String player2Name;
 
   const ImageScreen({
     super.key,
     required this.images,
-    required this.frontImagePath, // Parametr dla obrazu rewersu.
+    required this.frontImagePath,
     required this.player1Name,
     required this.player2Name,
   });
@@ -75,14 +75,14 @@ class _ImageScreenState extends State<ImageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Card Game'),
+        title: const Text('Gra w Karty'),
       ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              '${widget.player1Name} Score: $_player1Score',
+              '${widget.player1Name} Wynik: $_player1Score',
               style: TextStyle(
                 fontWeight: _currentPlayer == 1 ? FontWeight.bold : FontWeight.normal,
                 fontSize: 24,
@@ -92,10 +92,10 @@ class _ImageScreenState extends State<ImageScreen> {
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 4.0,
-                  mainAxisSpacing: 4.0,
-                  childAspectRatio: 0.75
+                crossAxisCount: 4,
+                crossAxisSpacing: 4.0,
+                mainAxisSpacing: 4.0,
+                childAspectRatio: 0.75,
               ),
               itemCount: widget.images.length,
               itemBuilder: (context, index) {
@@ -104,11 +104,12 @@ class _ImageScreenState extends State<ImageScreen> {
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Visibility(
-                    visible: _visible[item.key] ?? false,
+                    visible: _visible[item.key]!,
                     child: CardFlip(
+                      frontImagePath: widget.frontImagePath,
                       backImagePath: item.imagePath,
-                      frontImagePath: widget.frontImagePath, // Ustawienie rewersu.
                       key: ValueKey(item.key),
+                      onTap: () => _handleTap(item.key),
                     ),
                   ),
                 );
@@ -118,7 +119,7 @@ class _ImageScreenState extends State<ImageScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              '${widget.player2Name} Score: $_player2Score',
+              '${widget.player2Name} Wynik: $_player2Score',
               style: TextStyle(
                 fontWeight: _currentPlayer == 2 ? FontWeight.bold : FontWeight.normal,
                 fontSize: 24,

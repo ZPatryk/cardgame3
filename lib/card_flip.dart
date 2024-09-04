@@ -4,93 +4,86 @@ import 'package:flutter/material.dart';
 class CardFlip extends StatefulWidget {
   final String frontImagePath;
   final String backImagePath;
+  final VoidCallback onTap; // Callback do obsługi kliknięć.
 
   const CardFlip({
     required this.frontImagePath,
     required this.backImagePath,
+    required this.onTap, // Inicjalizacja callbacku.
     super.key,
   });
 
   @override
-  State<CardFlip> createState() =>
-      _CardFlipState(); // Tworzenie stanu widgetu CardFlip.
+  State<CardFlip> createState() => _CardFlipState();
 }
 
-class _CardFlipState extends State<CardFlip>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller; // Kontroler animacji.
-  late Animation<double> _animation; // Sama animacja.
+class _CardFlipState extends State<CardFlip> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
-  bool _showFront = true; // Flaga określająca, czy przód karty jest widoczny.
+  bool _showFront = true;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       duration: const Duration(seconds: 1),
-      // Ustawienie czasu trwania animacji.
-      vsync: this, // Potrzebne do synchronizacji animacji.
+      vsync: this,
     );
 
-    _animation = Tween<double>(begin: 0, end: 1)
-        .animate(_controller); // Definiowanie zakresu animacji (od 0 do 1).
+    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
   }
 
   void _flipCard() {
     _controller.forward().then((_) {
       setState(() {
-        _showFront = !_showFront; // Zmiana stanu karty.
+        _showFront = !_showFront;
       });
-      //_controller.reverse(); // Powrót animacji do początkowej wartości.
+      _controller.reverse(); // Powrót animacji do początkowej wartości.
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _flipCard, // Rejestrowanie kliknięcia, aby obrócić kartę.
+      onTap: () {
+        _flipCard();
+        widget.onTap(); // Wywołanie callbacku.
+      },
       child: AnimatedBuilder(
         animation: _animation,
         builder: (context, child) {
-          // Obliczanie kąta obrotu na podstawie wartości animacji.
           double angle = _animation.value * pi;
-          // Sprawdzanie, czy obecna strona jest spodnia.
           final isUnder = _animation.value > 0.5;
-          // Obliczanie delikatnego przechylenia dla efektu 3D.
           var tilt = (1 - _animation.value - 0.5).abs() - 0.5;
-          // Nakładanie przechylenia zależnie od strony.
           tilt *= isUnder ? -0.005 : 0.005;
 
-          // Tworzenie przekształcenia z rotacją i przechyleniem.
           final transform = Matrix4.rotationY(angle)..setEntry(3, 0, tilt);
 
           return Transform(
-            transform: transform, // Przekształcenie z rotacją w osi Y.
-            alignment: Alignment.center, // Ustawienie środka obrotu.
+            transform: transform,
+            alignment: Alignment.center,
             child: _animation.value < 0.5
                 ? SizedBox(
-                    width: 200, // Szerokość karty.
-                    height: 300, // Wysokość karty.
-                    child: Image.asset(
-                      widget
-                          .frontImagePath, // Ścieżka do przedniego obrazu karty.
-                      fit: BoxFit.cover, // Dopasowanie obrazu do kontenera.
-                    ),
-                  )
+              width: 200,
+              height: 300,
+              child: Image.asset(
+                widget.frontImagePath,
+                fit: BoxFit.cover,
+              ),
+            )
                 : Transform(
-                    transform: Matrix4.rotationY(pi),
-                    // Obrót o 180 stopni dla tylnej strony.
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: 200, // Szerokość karty.
-                      height: 300, // Wysokość karty.
-                      child: Image.asset(
-                        widget
-                            .backImagePath, // Ścieżka do tylnego obrazu karty.
-                        fit: BoxFit.cover, // Dopasowanie obrazu do kontenera.
-                      ),
-                    ),
-                  ),
+              transform: Matrix4.rotationY(pi),
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: 200,
+                height: 300,
+                child: Image.asset(
+                  widget.backImagePath,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
           );
         },
       ),
@@ -99,7 +92,7 @@ class _CardFlipState extends State<CardFlip>
 
   @override
   void dispose() {
-    _controller.dispose(); // Zwolnienie zasobów kontrolera animacji.
+    _controller.dispose();
     super.dispose();
   }
 }
