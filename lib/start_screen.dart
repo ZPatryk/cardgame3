@@ -1,7 +1,7 @@
-import 'package:cardgame/utils/geradient_animation_widget.dart';
-import 'package:flutter/material.dart';
 import 'dart:math';
-import 'card_flip.dart'; // Import nowej klasy do obsługi obracania kart.
+
+import 'package:cardgame/utils/geradient.dart';
+import 'package:flutter/material.dart';
 import 'image_item.dart';
 import 'image_screen.dart';
 import 'package:cardgame/utils/text_styles.dart';
@@ -36,7 +36,6 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Definiowanie listy obrazów oraz dodanie obrazu rewersu
     final List<ImageItem> images = [
       ImageItem(key: 'apple', imagePath: 'assets/images/image1.png'),
       ImageItem(key: 'apple1', imagePath: 'assets/images/image2.png'),
@@ -60,10 +59,9 @@ class _StartScreenState extends State<StartScreen> {
       ImageItem(key: 'raspberry1', imagePath: 'assets/images/image20.png'),
     ];
 
-    // Ścieżka do obrazu rewersu
     final String frontImagePath = 'assets/images/image21.png';
 
-    //images.shuffle(Random());
+    images.shuffle(Random());
 
     return Scaffold(
       appBar: AppBar(
@@ -71,9 +69,7 @@ class _StartScreenState extends State<StartScreen> {
           child: Text('Enter Player Names', style: TextStyles.retro),
         ),
       ),
-      body: GradientAnimationWidget(
-        colors: const [Color(0xFFDD3333), Color(0xFFD387EF)],
-        duration: const Duration(seconds: 12),
+      body: GradientWidget(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Center(
@@ -123,7 +119,7 @@ class _StartScreenState extends State<StartScreen> {
                       MaterialPageRoute(
                         builder: (context) => ImageScreen(
                           images: images,
-                          frontImagePath: frontImagePath, // Dodanie rewersu do parametrów
+                          frontImagePath: frontImagePath,
                           player1Name: player1Controller.text,
                           player2Name: player2Controller.text,
                         ),
