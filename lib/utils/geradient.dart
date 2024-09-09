@@ -14,34 +14,61 @@ class GradientWidget extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         // Pierwszy kontener z gradientem
-        Container(
-          width: 800,
-          height: 800,
-          decoration: const BoxDecoration(
-            gradient: RadialGradient(
-              colors: [
-                Color.fromARGB(255, 225, 133, 227), // Pierwszy kolor
-                Color.fromARGB(255, 181, 80, 234),  // Drugi kolor
-              ],
-              radius: 1.0,
-              center: Alignment.center,
+        OverflowBox(
+          maxWidth:1200,  // Ustaw szerokość większą niż ekran
+          maxHeight: 1200, // Ustaw wysokość większą niż ekran
+          child: Container(
+            width: 1200,
+            height: 1200,
+            decoration: const BoxDecoration(
+              gradient: RadialGradient(
+                colors: [
+                  Color.fromARGB(255, 183, 102, 228), // Pierwszy kolor
+                  Color.fromARGB(255, 215, 110, 236),  // Drugi kolor
+                ],
+                radius: 1.0,
+                center: Alignment.center,
+              ),
+              shape: BoxShape.circle,
             ),
-            shape: BoxShape.circle,
           ),
         ),
-        Container(
-          width: 600,
-          height: 600,
-          decoration: const BoxDecoration(
-            gradient: RadialGradient(
-              colors: [
-                Color.fromARGB(255, 225, 133, 227), // Pierwszy kolor
-                Color.fromARGB(255, 181, 80, 234),  // Drugi kolor
-              ],
-              radius: 1.0,
-              center: Alignment.center,
+        OverflowBox(
+          maxWidth:900,  // Ustaw szerokość większą niż ekran
+          maxHeight: 900, // Ustaw wysokość większą niż ekran
+          child: Container(
+            width: 700,
+            height: 700,
+            decoration: const BoxDecoration(
+              gradient: RadialGradient(
+                colors: [
+                  Color.fromARGB(255, 225, 133, 227), // Pierwszy kolor
+                  Color.fromARGB(255, 181, 80, 234),  // Drugi kolor
+                ],
+                radius: 1.0,
+                center: Alignment.center,
+              ),
+              shape: BoxShape.circle,
             ),
-            shape: BoxShape.circle,
+          ),
+        ),
+        OverflowBox(
+          maxHeight: 500,
+          maxWidth: 500,
+          child: Container(
+            width: 500,
+            height: 500,
+            decoration: const BoxDecoration(
+              gradient: RadialGradient(
+                colors: [
+                  Color.fromARGB(255, 220, 106, 222), // Trzeci kolor
+                  Color.fromARGB(255, 223, 164, 225),  // Drugi kolor
+                ],
+                radius: 1.0,
+                center: Alignment.center,
+              ),
+              shape: BoxShape.circle,
+            ),
           ),
         ),
         // Drugi kontener z gradientem
@@ -51,8 +78,8 @@ class GradientWidget extends StatelessWidget {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color.fromARGB(255, 181, 80, 234), // Trzeci kolor
-                Color.fromARGB(255, 225, 133, 227), // Czwarty kolor
+                Color.fromARGB(255, 225, 133, 227), // Trzeci kolor
+                Color.fromARGB(255, 236, 180, 236), // Czwarty kolor
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
