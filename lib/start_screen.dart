@@ -114,14 +114,17 @@ class _StartScreenState extends State<StartScreen> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
+                    String player1Name = player1Controller.text.isEmpty ? 'Player 1' : player1Controller.text;
+                    String player2Name = player2Controller.text.isEmpty ? 'Player 2' : player2Controller.text;
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ImageScreen(
                           images: images,
                           frontImagePath: frontImagePath,
-                          player1Name: player1Controller.text,
-                          player2Name: player2Controller.text,
+                          player1Name: player1Name,
+                          player2Name: player2Name,
                         ),
                       ),
                     );

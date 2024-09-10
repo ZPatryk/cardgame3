@@ -78,7 +78,7 @@ class _ImageScreenState extends State<ImageScreen> {
 
         if (pairedKey == _secondSelectedKey) {
           // Jeśli karty pasują, ukryj je po krótkim opóźnieniu.
-          Future.delayed(const Duration(seconds: 2), () {
+          Future.delayed(const Duration(seconds: 0), () {
             setState(() {
               _visible[_firstSelectedKey!] = false; // Ukryj pierwszą kartę.
               _visible[_secondSelectedKey!] = false; // Ukryj drugą kartę.
@@ -100,7 +100,7 @@ class _ImageScreenState extends State<ImageScreen> {
             // Jeśli karty nie pasują, obróć je z powrotem.
             _reverseBothCards();
             // Po krótkim opóźnieniu zmień gracza.
-            Future.delayed(const Duration(seconds: 1), () {
+            Future.delayed(const Duration(seconds: 0, milliseconds: 500), () {
               setState(() {
                 _currentPlayer =
                     _currentPlayer == 1 ? 2 : 1; // Zmień aktualnego gracza.
