@@ -78,7 +78,7 @@ class _ImageScreenState extends State<ImageScreen> {
 
         if (pairedKey == _secondSelectedKey) {
           // Jeśli karty pasują, ukryj je po krótkim opóźnieniu.
-          Future.delayed(const Duration(seconds: 0), () {
+          Future.delayed(const Duration(seconds: 1, milliseconds: 250), () {
             setState(() {
               _visible[_firstSelectedKey!] = false; // Ukryj pierwszą kartę.
               _visible[_secondSelectedKey!] = false; // Ukryj drugą kartę.
