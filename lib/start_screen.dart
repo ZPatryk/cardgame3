@@ -77,9 +77,12 @@ class _StartScreenState extends State<StartScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // Dodanie widgetu `MultipleCardGridWrapper` na górze
-              const MultipleCardGridWrapper(
-                width: 200.0, // Cała szerokość ekranu
-                height: 200.0, // Zajmuje 40% wysokości ekranu
+              const Opacity(
+                opacity: 0.4,
+                child: MultipleCardGridWrapper(
+                  width: 150.0, // Cała szerokość ekranu
+                  height: 150.0, // Zajmuje 40% wysokości ekranu
+                ),
               ),
               const SizedBox(height: 20),
               // Pozostałe elementy poniżej
