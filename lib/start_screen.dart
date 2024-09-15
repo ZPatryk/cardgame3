@@ -1,10 +1,11 @@
 import 'dart:math';
-
 import 'package:cardgame/utils/geradient.dart';
 import 'package:flutter/material.dart';
 import 'image_item.dart';
 import 'image_screen.dart';
 import 'package:cardgame/utils/text_styles.dart';
+import 'package:cardgame/animation/MultipleCard.dart';
+
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -59,7 +60,7 @@ class _StartScreenState extends State<StartScreen> {
       ImageItem(key: 'raspberry1', imagePath: 'assets/images/image20.png'),
     ];
 
-    final String frontImagePath = 'assets/images/image21.png';
+    const String frontImagePath = 'assets/images/image21.png';
 
     images.shuffle(Random());
 
@@ -72,67 +73,73 @@ class _StartScreenState extends State<StartScreen> {
       body: GradientWidget(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 250.0,
-                  child: TextField(
-                    maxLength: 10,
-                    controller: player1Controller,
-                    focusNode: _player1FocusNode,
-                    style: TextStyles.retroblack,
-                    decoration: const InputDecoration(
-                      label: Center(
-                        child: Text(
-                          'Player 1 Name',
-                          style: TextStyles.retro,
-                        ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              // Dodanie widgetu `MultipleCardGridWrapper` na górze
+              const MultipleCardGridWrapper(
+                width: 200.0, // Cała szerokość ekranu
+                height: 200.0, // Zajmuje 40% wysokości ekranu
+              ),
+              const SizedBox(height: 20),
+              // Pozostałe elementy poniżej
+              SizedBox(
+                width: 250.0,
+                child: TextField(
+                  maxLength: 10,
+                  controller: player1Controller,
+                  focusNode: _player1FocusNode,
+                  style: TextStyles.retroblack,
+                  decoration: const InputDecoration(
+                    label: Center(
+                      child: Text(
+                        'Player 1 Name',
+                        style: TextStyles.retro,
                       ),
                     ),
-                    textAlign: TextAlign.center,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                  width: 250.0,
-                  child: TextField(
-                    maxLength: 10,
-                    controller: player2Controller,
-                    style: TextStyles.retroblack,
-                    decoration: const InputDecoration(
-                      label: Center(
-                        child: Text(
-                          'Player 2 Name',
-                          style: TextStyles.retro,
-                        ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: 250.0,
+                child: TextField(
+                  maxLength: 10,
+                  controller: player2Controller,
+                  style: TextStyles.retroblack,
+                  decoration: const InputDecoration(
+                    label: Center(
+                      child: Text(
+                        'Player 2 Name',
+                        style: TextStyles.retro,
                       ),
                     ),
-                    textAlign: TextAlign.center,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    String player1Name = player1Controller.text.isEmpty ? 'Player 1' : player1Controller.text;
-                    String player2Name = player2Controller.text.isEmpty ? 'Player 2' : player2Controller.text;
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  String player1Name = player1Controller.text.isEmpty ? 'Player 1' : player1Controller.text;
+                  String player2Name = player2Controller.text.isEmpty ? 'Player 2' : player2Controller.text;
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ImageScreen(
-                          images: images,
-                          frontImagePath: frontImagePath,
-                          player1Name: player1Name,
-                          player2Name: player2Name,
-                        ),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ImageScreen(
+                        images: images,
+                        frontImagePath: frontImagePath,
+                        player1Name: player1Name,
+                        player2Name: player2Name,
                       ),
-                    );
-                  },
-                  child: const Text('Start Game', style: TextStyles.retro),
-                ),
-              ],
-            ),
+                    ),
+                  );
+                },
+                child: const Text('Start Game', style: TextStyles.retro),
+              ),
+            ],
           ),
         ),
       ),
