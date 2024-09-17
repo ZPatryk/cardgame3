@@ -6,7 +6,7 @@ class GradientWidget extends StatelessWidget {
 
   const GradientWidget({
     super.key,
-    required this.child,
+    required this.child, required bool reziseToAvoidBottomInset,
   });
 
   @override

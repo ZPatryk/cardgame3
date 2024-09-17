@@ -65,26 +65,31 @@ class _StartScreenState extends State<StartScreen> {
     images.shuffle(Random());
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Center(
           child: Text('Enter Player Names', style: TextStyles.retro),
         ),
       ),
       body: GradientWidget(
+        reziseToAvoidBottomInset: false,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // Dodanie widgetu `MultipleCardGridWrapper` na górze
-              const Opacity(
-                opacity: 0.4,
-                child: MultipleCardGridWrapper(
-                  width: 150.0, // Cała szerokość ekranu
-                  height: 150.0, // Zajmuje 40% wysokości ekranu
+              //Dodanie widgetu `MultipleCardGridWrapper` na górze
+              const Padding(
+                padding: EdgeInsets.all(30.0),
+                child: Opacity(
+                  opacity: 0.60,
+                   child: MultipleCardGridWrapper(
+                    width: 150.0, // Cała szerokość ekranu
+                    height: 150.0,
+                  ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 75),
               // Pozostałe elementy poniżej
               SizedBox(
                 width: 250.0,
@@ -122,7 +127,7 @@ class _StartScreenState extends State<StartScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   String player1Name = player1Controller.text.isEmpty ? 'Player 1' : player1Controller.text;
