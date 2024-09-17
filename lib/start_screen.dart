@@ -62,7 +62,7 @@ class _StartScreenState extends State<StartScreen> {
 
     const String frontImagePath = 'assets/images/image21.png';
 
-    images.shuffle(Random());
+    //images.shuffle(Random());
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -82,7 +82,7 @@ class _StartScreenState extends State<StartScreen> {
               const Padding(
                 padding: EdgeInsets.all(30.0),
                 child: Opacity(
-                  opacity: 0.60,
+                  opacity: 0.3,
                    child: MultipleCardGridWrapper(
                     width: 150.0, // Cała szerokość ekranu
                     height: 150.0,

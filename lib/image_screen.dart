@@ -1,3 +1,4 @@
+import 'package:cardgame/utils/geradient.dart';
 import 'package:flutter/material.dart';
 import 'image_item.dart'; // Import klasy ImageItem, która prawdopodobnie przechowuje informacje o obrazach kart.
 import 'card_flip.dart'; // Import klasy CardFlip, która obsługuje animację obracania kart.
@@ -100,14 +101,14 @@ class _ImageScreenState extends State<ImageScreen> {
             // Jeśli karty nie pasują, obróć je z powrotem.
             _reverseBothCards();
             // Po krótkim opóźnieniu zmień gracza.
-            Future.delayed(const Duration(seconds: 0, milliseconds: 500), () {
+            //Future.delayed(const Duration(seconds: 0, milliseconds: 000), () {
               setState(() {
                 _currentPlayer =
                     _currentPlayer == 1 ? 2 : 1; // Zmień aktualnego gracza.
                 _firstSelectedKey = null; // Zresetuj wybrane karty.
                 _secondSelectedKey = null; // Zresetuj wybrane karty.
               });
-            });
+            //});
           });
         }
       }
@@ -120,70 +121,73 @@ class _ImageScreenState extends State<ImageScreen> {
       appBar: AppBar(
         title: const Text('Gra w Karty'), // Tytuł ekranu.
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              '${widget.player1Name} Wynik: $_player1Score',
-              // Wyświetl wynik gracza 1.
-              style: TextStyle(
-                fontWeight: _currentPlayer == 1
-                    ? FontWeight.bold
-                    : FontWeight
-                        .normal, // Pogrubienie tekstu dla aktualnego gracza.
-                fontSize: 24, // Rozmiar czcionki.
+      body: GradientWidget(
+        reziseToAvoidBottomInset: false,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                '${widget.player1Name} Wynik: $_player1Score',
+                // Wyświetl wynik gracza 1.
+                style: TextStyle(
+                  fontWeight: _currentPlayer == 1
+                      ? FontWeight.bold
+                      : FontWeight
+                          .normal, // Pogrubienie tekstu dla aktualnego gracza.
+                  fontSize: 24, // Rozmiar czcionki.
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, // Liczba kolumn w siatce.
-                crossAxisSpacing: 4.0, // Odstęp między kolumnami.
-                mainAxisSpacing: 4.0, // Odstęp między wierszami.
-                childAspectRatio:
-                    0.75, // Proporcje szerokości do wysokości kart.
-              ),
-              itemCount: widget.images.length, // Liczba kart do wyświetlenia.
-              itemBuilder: (context, index) {
-                final item = widget.images[index]; // Pobierz kartę z listy.
-
-                return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Visibility(
-                    visible: _visible[item.key]!,
-                    // Sprawdza, czy karta powinna być widoczna.
-                    child: CardFlip(
-                      frontImagePath: widget.frontImagePath,
-                      // Ścieżka do obrazu rewersu karty.
-                      backImagePath: item.imagePath,
-                      // Ścieżka do obrazu awersu karty.
-                      key: _cardKeys[item.key],
-                      // Używa GlobalKey do kontrolowania stanu karty.
-                      onTap: () => _handleTap(item
-                          .key), // Wywołuje metodę obsługi kliknięcia karty.
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4, // Liczba kolumn w siatce.
+                  crossAxisSpacing: 4.0, // Odstęp między kolumnami.
+                  mainAxisSpacing: 4.0, // Odstęp między wierszami.
+                  childAspectRatio:
+                      0.75, // Proporcje szerokości do wysokości kart.
+                ),
+                itemCount: widget.images.length, // Liczba kart do wyświetlenia.
+                itemBuilder: (context, index) {
+                  final item = widget.images[index]; // Pobierz kartę z listy.
+        
+                  return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Visibility(
+                      visible: _visible[item.key]!,
+                      // Sprawdza, czy karta powinna być widoczna.
+                      child: CardFlip(
+                        frontImagePath: widget.frontImagePath,
+                        // Ścieżka do obrazu rewersu karty.
+                        backImagePath: item.imagePath,
+                        // Ścieżka do obrazu awersu karty.
+                        key: _cardKeys[item.key],
+                        // Używa GlobalKey do kontrolowania stanu karty.
+                        onTap: () => _handleTap(item
+                            .key), // Wywołuje metodę obsługi kliknięcia karty.
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              '${widget.player2Name} Wynik: $_player2Score',
-              // Wyświetl wynik gracza 2.
-              style: TextStyle(
-                fontWeight: _currentPlayer == 2
-                    ? FontWeight.bold
-                    : FontWeight
-                        .normal, // Pogrubienie tekstu dla aktualnego gracza.
-                fontSize: 24, // Rozmiar czcionki.
+                  );
+                },
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                '${widget.player2Name} Wynik: $_player2Score',
+                // Wyświetl wynik gracza 2.
+                style: TextStyle(
+                  fontWeight: _currentPlayer == 2
+                      ? FontWeight.bold
+                      : FontWeight
+                          .normal, // Pogrubienie tekstu dla aktualnego gracza.
+                  fontSize: 24, // Rozmiar czcionki.
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
