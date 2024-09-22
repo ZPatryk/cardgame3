@@ -1,7 +1,8 @@
 import 'package:cardgame/utils/geradient.dart';
 import 'package:flutter/material.dart';
-import 'image_item.dart'; // Import klasy ImageItem, która prawdopodobnie przechowuje informacje o obrazach kart.
-import 'card_flip.dart'; // Import klasy CardFlip, która obsługuje animację obracania kart.
+import 'animation_score/PulsatingCardScreen.dart';
+import 'image_item.dart';
+import 'card_flip.dart';
 
 class ImageScreen extends StatefulWidget {
   final List<ImageItem>
@@ -33,6 +34,8 @@ class _ImageScreenState extends State<ImageScreen> {
   int _player1Score = 0; // Wynik gracza 1.
   int _player2Score = 0; // Wynik gracza 2.
   int _currentPlayer = 1; // Aktualny gracz (1 lub 2).
+  bool _isPlayer1Animating = false; // Flaga animacji dla gracza 1.
+  bool _isPlayer2Animating = false; // Flaga animacji dla gracza 2.
 
   // Dodajemy GlobalKey dla CardFlip, aby kontrolować animacje kart.
   final Map<String, GlobalKey<CardFlipState>> _cardKeys = {};
@@ -88,8 +91,12 @@ class _ImageScreenState extends State<ImageScreen> {
             // Dodaj punkt graczowi, który zdobył parę kart.
             if (_currentPlayer == 1) {
               _player1Score++;
+              _isPlayer1Animating = true;
+              _isPlayer2Animating = false;
             } else {
               _player2Score++;
+              _isPlayer2Animating = true;
+              _isPlayer1Animating = false;
             }
 
             // Zresetuj wybrane karty.
@@ -127,16 +134,33 @@ class _ImageScreenState extends State<ImageScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                '${widget.player1Name} Wynik: $_player1Score',
-                // Wyświetl wynik gracza 1.
-                style: TextStyle(
-                  fontWeight: _currentPlayer == 1
-                      ? FontWeight.bold
-                      : FontWeight
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${widget.player1Name}',
+                    // Wyświetl wynik gracza 1.
+                    style: TextStyle(
+                      fontWeight: _currentPlayer == 1
+                          ? FontWeight.bold
+                          : FontWeight
+                              .normal, // Pogrubienie tekstu dla aktualnego gracza.
+                      fontSize: 24, // Rozmiar czcionki.
+                    ),
+                  ),
+                  _isPlayer1Animating ? PulsatingCardScreen() : Container(),
+                  Text(
+                    '  $_player1Score',
+                    // Wyświetl wynik gracza 1.
+                    style: TextStyle(
+                      fontWeight: _currentPlayer == 1
+                          ? FontWeight.bold
+                          : FontWeight
                           .normal, // Pogrubienie tekstu dla aktualnego gracza.
-                  fontSize: 24, // Rozmiar czcionki.
-                ),
+                      fontSize: 24, // Rozmiar czcionki.
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(
@@ -174,16 +198,33 @@ class _ImageScreenState extends State<ImageScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                '${widget.player2Name} Wynik: $_player2Score',
-                // Wyświetl wynik gracza 2.
-                style: TextStyle(
-                  fontWeight: _currentPlayer == 2
-                      ? FontWeight.bold
-                      : FontWeight
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${widget.player2Name}',
+                    // Wyświetl wynik gracza 1.
+                    style: TextStyle(
+                      fontWeight: _currentPlayer == 2
+                          ? FontWeight.bold
+                          : FontWeight
                           .normal, // Pogrubienie tekstu dla aktualnego gracza.
-                  fontSize: 24, // Rozmiar czcionki.
-                ),
+                      fontSize: 24, // Rozmiar czcionki.
+                    ),
+                  ),
+                  _isPlayer2Animating ? PulsatingCardScreen() : Container(),
+                  Text(
+                    '  $_player2Score',
+                    // Wyświetl wynik gracza 1.
+                    style: TextStyle(
+                      fontWeight: _currentPlayer == 2
+                          ? FontWeight.bold
+                          : FontWeight
+                          .normal, // Pogrubienie tekstu dla aktualnego gracza.
+                      fontSize: 24, // Rozmiar czcionki.
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
