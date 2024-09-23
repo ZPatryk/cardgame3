@@ -62,7 +62,7 @@ class _StartScreenState extends State<StartScreen> {
 
     const String frontImagePath = 'assets/images/image21.png';
 
-    images.shuffle(Random());
+    //images.shuffle(Random());
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

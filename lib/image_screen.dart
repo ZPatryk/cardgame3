@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'animation_score/PulsatingCardScreen.dart';
 import 'image_item.dart';
 import 'card_flip.dart';
+import 'end_game_page.dart';
+
 
 class ImageScreen extends StatefulWidget {
   final List<ImageItem>
@@ -63,64 +65,82 @@ class _ImageScreenState extends State<ImageScreen> {
   }
 
   void _handleTap(String key) {
-    // Jeśli karta jest już niewidoczna lub dwie karty są już wybrane, nic nie rób.
-    if (!_visible[key]! ||
-        (_firstSelectedKey != null && _secondSelectedKey != null)) {
+    if (!_visible[key]! || (_firstSelectedKey != null && _secondSelectedKey != null)) {
       return;
     }
 
     setState(() {
       if (_firstSelectedKey == null) {
-        _firstSelectedKey = key; // Zapisz klucz pierwszej wybranej karty.
+        _firstSelectedKey = key;
       } else {
-        _secondSelectedKey = key; // Zapisz klucz drugiej wybranej karty.
+        _secondSelectedKey = key;
 
-        // Sprawdza, czy wybrane karty pasują do siebie (na podstawie kluczy).
         String pairedKey = _firstSelectedKey!.endsWith('1')
             ? _firstSelectedKey!.replaceAll('1', '')
             : '${_firstSelectedKey!}1';
 
         if (pairedKey == _secondSelectedKey) {
-          // Jeśli karty pasują, ukryj je po krótkim opóźnieniu.
           Future.delayed(const Duration(seconds: 1, milliseconds: 250), () {
-            setState(() {
-              _visible[_firstSelectedKey!] = false; // Ukryj pierwszą kartę.
-              _visible[_secondSelectedKey!] = false; // Ukryj drugą kartę.
-            });
+            if (mounted) {
+              setState(() {
+                _visible[_firstSelectedKey!] = false;
+                _visible[_secondSelectedKey!] = false;
 
-            // Dodaj punkt graczowi, który zdobył parę kart.
-            if (_currentPlayer == 1) {
-              _player1Score++;
-              _isPlayer1Animating = true;
-              _isPlayer2Animating = false;
-            } else {
-              _player2Score++;
-              _isPlayer2Animating = true;
-              _isPlayer1Animating = false;
+                if (_currentPlayer == 1) {
+                  _player1Score++;
+                  _isPlayer1Animating = true;
+                  _isPlayer2Animating = false;
+                } else {
+                  _player2Score++;
+                  _isPlayer2Animating = true;
+                  _isPlayer1Animating = false;
+                }
+
+                _firstSelectedKey = null;
+                _secondSelectedKey = null;
+              });
+
+              // Kolejne opóźnienie, aby upewnić się, że wynik jest w pełni zaktualizowany
+              Future.delayed(const Duration(milliseconds: 500), () {
+                // Debugowanie
+                print('Wynik Gracz 1: $_player1Score, Wynik Gracz 2: $_player2Score');
+
+                if (_player1Score + _player2Score == 10) {
+                  print('Gra zakończona!');
+
+                  // Opóźnienie przed nawigacją, aby gra mogła zakończyć animacje
+                  Future.delayed(const Duration(milliseconds: 250), () {
+                    if (mounted) {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => EndGamePage(
+                            player1Score: _player1Score,
+                            player2Score: _player2Score,
+                          ),
+                        ),
+                      );
+                    }
+                  });
+                }
+              });
             }
-
-            // Zresetuj wybrane karty.
-            _firstSelectedKey = null;
-            _secondSelectedKey = null;
           });
         } else {
           Future.delayed(const Duration(seconds: 1, milliseconds: 500), () {
-            // Jeśli karty nie pasują, obróć je z powrotem.
-            _reverseBothCards();
-            // Po krótkim opóźnieniu zmień gracza.
-            //Future.delayed(const Duration(seconds: 0, milliseconds: 000), () {
+            if (mounted) {
+              _reverseBothCards();
               setState(() {
-                _currentPlayer =
-                    _currentPlayer == 1 ? 2 : 1; // Zmień aktualnego gracza.
-                _firstSelectedKey = null; // Zresetuj wybrane karty.
-                _secondSelectedKey = null; // Zresetuj wybrane karty.
+                _currentPlayer = _currentPlayer == 1 ? 2 : 1;
+                _firstSelectedKey = null;
+                _secondSelectedKey = null;
               });
-            //});
+            }
           });
         }
       }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
