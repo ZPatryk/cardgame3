@@ -22,6 +22,7 @@ class ImageScreen extends StatefulWidget {
     required this.player2Name, // Przekazuje nazwę gracza 2.
   });
 
+
   @override
   _ImageScreenState createState() =>
       _ImageScreenState(); // Tworzy stan dla ImageScreen.
@@ -103,7 +104,7 @@ class _ImageScreenState extends State<ImageScreen> {
               // Kolejne opóźnienie, aby upewnić się, że wynik jest w pełni zaktualizowany
               Future.delayed(const Duration(milliseconds: 500), () {
                 // Debugowanie
-                print('Wynik Gracz 1: $_player1Score, Wynik Gracz 2: $_player2Score');
+                //print('Wynik Gracz 1: $_player1Score, Wynik Gracz 2: $_player2Score');
 
                 if (_player1Score + _player2Score == 10) {
                   print('Gra zakończona!');
@@ -115,7 +116,7 @@ class _ImageScreenState extends State<ImageScreen> {
                         MaterialPageRoute(
                           builder: (context) => EndGamePage(
                             player1Score: _player1Score,
-                            player2Score: _player2Score,
+                            player2Score: _player2Score, player1Name: '', player2Name: '',
                           ),
                         ),
                       );

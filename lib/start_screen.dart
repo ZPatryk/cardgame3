@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:cardgame/utils/geradient.dart';
 import 'package:flutter/material.dart';
 import 'image_item.dart';
