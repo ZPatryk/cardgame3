@@ -1,4 +1,5 @@
-import 'package:cardgame/utils/geradient.dart';
+import 'package:cardgame/utils/appbar_backdrop.dart';
+import 'package:cardgame/utils/gradient.dart';
 import 'package:flutter/material.dart';
 import 'animation_score/PulsatingCardScreen.dart';
 import 'image_item.dart';
@@ -107,16 +108,19 @@ class _ImageScreenState extends State<ImageScreen> {
                 //print('Wynik Gracz 1: $_player1Score, Wynik Gracz 2: $_player2Score');
 
                 if (_player1Score + _player2Score == 10) {
-                  print('Gra zakończona!');
+                  //print('Gra zakończona!');
 
                   // Opóźnienie przed nawigacją, aby gra mogła zakończyć animacje
                   Future.delayed(const Duration(milliseconds: 250), () {
                     if (mounted) {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
                           builder: (context) => EndGamePage(
                             player1Score: _player1Score,
-                            player2Score: _player2Score, player1Name: '', player2Name: '',
+                            player2Score: _player2Score,
+                            player1Name: widget.player1Name,
+                            player2Name: widget.player2Name,
                           ),
                         ),
                       );
@@ -146,8 +150,11 @@ class _ImageScreenState extends State<ImageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Gra w Karty'), // Tytuł ekranu.
+      appBar: const BackdropAppBar(
+        title: 'Find a pair',
+        gradientColors: [Color.fromARGB(100, 120, 2, 151), Color.fromARGB(
+            255, 167, 77, 178)],
+        textColor: Colors.white70,
       ),
       body: GradientWidget(
         reziseToAvoidBottomInset: false,

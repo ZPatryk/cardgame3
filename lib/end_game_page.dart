@@ -1,6 +1,7 @@
+import 'package:cardgame/utils/appbar_backdrop.dart';
 import 'package:flutter/material.dart';
 import 'start_screen.dart';
-import 'package:cardgame/utils/geradient.dart';
+import 'package:cardgame/utils/gradient.dart';
 
 class EndGamePage extends StatefulWidget {
   final int player1Score;
@@ -43,8 +44,11 @@ class _EndGamePageState extends State<EndGamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Gra zakończona!"),
+      appBar: const BackdropAppBar(
+        title: 'Find a pair',
+        gradientColors: [Color.fromARGB(100, 120, 2, 151), Color.fromARGB(
+            255, 167, 77, 178)],
+        textColor: Colors.white70,
       ),
       body: GradientWidget(
         reziseToAvoidBottomInset: true,

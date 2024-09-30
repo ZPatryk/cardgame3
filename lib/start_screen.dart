@@ -1,9 +1,10 @@
-import 'package:cardgame/utils/geradient.dart';
+import 'package:cardgame/utils/gradient.dart';
 import 'package:flutter/material.dart';
 import 'image_item.dart';
 import 'image_screen.dart';
 import 'package:cardgame/utils/text_styles.dart';
 import 'package:cardgame/animation/MultipleCard.dart';
+import 'package:cardgame/utils/appbar_backdrop.dart';
 
 
 class StartScreen extends StatefulWidget {
@@ -65,10 +66,11 @@ class _StartScreenState extends State<StartScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Center(
-          child: Text('Enter Player Names', style: TextStyles.retro),
-        ),
+      appBar: const BackdropAppBar(
+          title: 'Find a pair',
+              gradientColors: [Color.fromARGB(100, 120, 2, 151), Color.fromARGB(
+        255, 167, 77, 178)],
+        textColor: Colors.white70,
       ),
       body: GradientWidget(
         reziseToAvoidBottomInset: false,
